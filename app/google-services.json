@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "20805003884",
+    "firebase_url": "https://lyfe-4f4c0.firebaseio.com",
+    "project_id": "lyfe-4f4c0",
+    "storage_bucket": "lyfe-4f4c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20805003884:android:f19062062499c253254649",
+        "android_client_info": {
+          "package_name": "com.online.Lyfe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20805003884-beque1cj7fvt9m3763do3ipkkbkd2kti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.online.Lyfe",
+            "certificate_hash": "152db564a45820b26304efba782dfa76b70dcd5b"
+          }
+        },
+        {
+          "client_id": "20805003884-7kv0nqcdnbqonnv8lhdmu7a7l3hs5cen.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSMttCC-NXE9rF3eWK_BpFARRdIf-38B8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20805003884-7kv0nqcdnbqonnv8lhdmu7a7l3hs5cen.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

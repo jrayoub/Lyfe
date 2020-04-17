@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Lyfe</string>
+    <string name="email">Email</string>
+    <string name="lyfe">Lyfe</string>
+    <string name="password">Password</string>
+    <string name="not_a_member">Not a member ?</string>
+    <string name="sing_up">Sing Up</string>
+    <string name="name">Full Name</string>
+    <string name="i_forgot_my_password">I Forgot my Password !</string>
+    <string name="verefection">Reset email has been sent please check on your email</string>
+    <string name="reset">Reset Password</string>
+    <string name="send">send</string>
+    <string name="login">Login</string>
+    <string name="upload">Upload</string>
+    <string name="phone_number_optional">Phone Number (optional)</string>
+    <string name="last_name">Last Name</string>
+    <string name="firs_name">First Name</string>
+    <string name="BIO">Bio (optional)</string>
+    <string name="start">Start</string>
+</resources>
