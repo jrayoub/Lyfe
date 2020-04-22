@@ -4,13 +4,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context=".Container">
+    tools:context=".Online.Container">
 
-    <FrameLayout
-        android:id="@+id/logout"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="1dp">
+
+            <LinearLayout
+                android:id="@+id/offline"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center|end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/offline"
+                    android:textColor="@color/wite"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/black_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/singout"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center|end"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/chat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center"
+                    android:text="@string/message"
+                    android:textColor="@color/wite"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@drawable/container_background"
+        android:orientation="vertical">
 
+        <FrameLayout
+            android:id="@+id/framlayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:ignore="NestedWeights" />
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:background="@drawable/tablayout_corner"
+            app:itemIconTint="@color/wite"
+            app:menu="@menu/side_menu" />
+    </LinearLayout>
 </LinearLayout>

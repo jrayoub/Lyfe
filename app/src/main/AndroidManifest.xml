@@ -13,18 +13,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".splashscreen">
+        <activity android:name=".Offline.Activities.ofline_browser" />
+        <activity
+            android:name=".Offline.ofline_mode_container"
+            android:theme="@style/fullscreen" />
+        <activity
+            android:name=".splashscreen"
+            android:theme="@style/fullscreen">
+
+        </activity>
+        <activity
+            android:name=".Online.Container"
+            android:theme="@style/fullscreen">
+
+        </activity>
+        <activity
+            android:name=".Online.MainActivity"
+            android:theme="@style/fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".Container" />
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
         </activity>
     </application>
 

@@ -5,5 +5,9 @@
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#D8FA709C</color>
     <color name="white">#fff</color>
-    <color name="center_button">#9B59B6</color>
+    <color name="center_button">#E9FAEB68</color>
+    <color name="black">#F5070707</color>
+    <color name="wite">#FFFFFF</color>
+    <color name="border">#C39BD3</color>
+
 </resources>

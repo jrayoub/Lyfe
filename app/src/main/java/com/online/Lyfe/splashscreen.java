@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.online.Lyfe.Offline.ofline_mode_container;
+import com.online.Lyfe.Online.MainActivity;
+
 public class splashscreen extends AppCompatActivity {
 
     @Override
@@ -15,7 +18,7 @@ public class splashscreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(splashscreen.this, MainActivity.class));
                 finish();
             }
         }, 3000);

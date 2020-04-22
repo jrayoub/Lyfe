@@ -17,4 +17,19 @@
     <string name="firs_name">First Name</string>
     <string name="BIO">Bio (optional)</string>
     <string name="start">Start</string>
+    <string name="offline">Offline</string>
+    <string name="home">Home</string>
+    <string name="Feedbak">Feedback</string>
+    <string name="Favorite">Favorite</string>
+    <string name="example">Example</string>
+    <string name="holy_sdhite_thats_an_example">holy sdhite thats an example</string>
+    <string name="add">Follow</string>
+    <string name="sing_out">Sing out</string>
+    <string name="message">Messenger</string>
+    <string name="friends">Friends</string>
+    <string name="notifecation">Notification</string>
+    <string name="profile">Profile</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="number">15K</string>
 </resources>
