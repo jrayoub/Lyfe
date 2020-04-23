@@ -1,14 +1,12 @@
 package com.online.Lyfe.Online.Adapter;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,51 +29,68 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class frieds_request extends RecyclerView.Adapter<frieds_request.freindholder> {
-    private ArrayList<freindlist> freind_list;
-    private Context mcontext;
-    private freindholder.onaddclick click;
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+public class frieds_request extends RecyclerView.Adapter<frieds_request.friend_holder> {
 
-    public frieds_request(ArrayList<com.online.Lyfe.Online.Model.freindlist> freindlist, Context mcontext, freindholder.onaddclick click) {
-        this.freind_list = freindlist;
-        this.mcontext = mcontext;
-        this.click = click;
+    private ArrayList<freindlist> freind_list;
+
+    private DatabaseReference follow
+            = FirebaseDatabase.getInstance().getReference().child("Follow");
+
+    private FirebaseUser user
+            = FirebaseAuth.getInstance().getCurrentUser();
+
+    private freindlist me;
+
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+    private friend_holder.onclick monclick;
+
+    public frieds_request(ArrayList<freindlist> friend_list, friend_holder.onclick onclick) {
+        this.freind_list = friend_list;
+        this.monclick = onclick;
     }
 
     @NonNull
     @Override
-    public freindholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public friend_holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.freinditem, parent, false);
-        return new freindholder(view, click);
+        return new friend_holder(view, monclick);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final freindholder holder, int position) {
-        final freindlist thisUser = new freindlist(freind_list.get(position).getFullnaame(),
-                freind_list.get(position).getEmail(),
-                freind_list.get(position).getId());
+    public void onBindViewHolder(@NonNull final friend_holder holder, final int position) {
+
+        final freindlist thisUser = freind_list.get(position);
+
         //checking the following
-        isFollowing(thisUser.getId(), thisUser, holder.add, holder.container);
+        isFollowing(thisUser.getId(), holder, position);
+
         //loading data
         holder.name.setText(freind_list.get(position).getFullnaame());
         Picasso.get().load("https://data.whicdn.com/images/307953035/original.jpg")
                 .into(holder.profile);
-        // on add
+
+        if (thisUser.getId().equals(firebaseUser.getUid())) {
+            me = thisUser;
+        }
+
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (holder.add.getText().toString().equals("follow")) {
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getUid())
-                            .child("following").child(thisUser.getId()).setValue(thisUser);
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(thisUser.getId())
-                            .child("followers").child(user.getUid()).removeValue();
+
+                    //set following
+                    follow.child(user.getUid()).child("following").child(thisUser.getId()).setValue(thisUser);
+
+                    //set followers
+                    follow.child(freind_list.get(position).getId()).child("followers").child(user.getUid()).setValue(me);
+
+                    //send notification
                     addNotification(thisUser.getId());
+
                 } else {
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getUid())
-                            .child("following").child(thisUser.getId()).removeValue();
-                   /* FirebaseDatabase.getInstance().getReference().child("Follow").child(thisUser.getId())
-                            .child("followers").child(user.getUid()).removeValue();*/
+                    follow.child(user.getUid()).child("following").child(thisUser.getId()).removeValue();
+                    follow.child(thisUser.getId()).child("followers").child(user.getUid()).removeValue();
                 }
             }
 
@@ -88,16 +103,16 @@ public class frieds_request extends RecyclerView.Adapter<frieds_request.freindho
         return freind_list.size();
     }
 
-    public static class freindholder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        onaddclick click;
+    public static class friend_holder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Button add;
         CircleImageView profile;
         TextView name;
         LinearLayout container;
+        onclick onclik;
 
-        public freindholder(@NonNull View itemView, onaddclick click) {
+        friend_holder(@NonNull View itemView, onclick onclick) {
             super(itemView);
-            this.click = click;
+            this.onclik = onclick;
             container = itemView.findViewById(R.id.container);
             add = itemView.findViewById(R.id.add);
             profile = itemView.findViewById(R.id.pic);
@@ -107,47 +122,53 @@ public class frieds_request extends RecyclerView.Adapter<frieds_request.freindho
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == add.getId()) {
-                click.add(getAdapterPosition());
-            }
+
         }
 
-        public interface onaddclick {
-            public void add(int position);
+        public interface onclick {
+            void delete(int position);
         }
     }
 
-    private void isFollowing(final String userid, final freindlist thisUser, final Button button, final LinearLayout container) {
-        Toast.makeText(mcontext, "checking", Toast.LENGTH_SHORT).show();
+    private void isFollowing(final String userid, final friend_holder friend_holder, final int position) {
+
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        assert firebaseUser != null;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Follow").child(firebaseUser.getUid()).child("following");
+
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(userid).exists()) {
-                    button.setText("following");
-                    //  container.setVisibility(View.GONE);
+                    friend_holder.add.setText("following");
+                    try {
+                        friend_holder.onclik.delete(position);
+                    } catch (Exception ignored) {
+                    }
+                    notifyDataSetChanged();
                 } else {
-                    button.setText("follow");
+                    friend_holder.add.setText("follow");
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
     }
 
-    private void addNotification(String userid) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(userid);
+    private void addNotification(String user_id) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id);
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("userid", user.getUid());
+        String id = user.getUid();
+        hashMap.put("userid", id);
         hashMap.put("text", "started following you");
         hashMap.put("postid", "");
         hashMap.put("ispost", false);
-
         reference.push().setValue(hashMap);
     }
 

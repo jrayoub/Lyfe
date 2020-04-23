@@ -39,9 +39,9 @@
         <Button
             android:id="@+id/add"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="120dp"
+            android:layout_width="140dp"
             android:layout_height="50dp"
-            android:background="@drawable/add"
+            android:background="@drawable/add_v2"
             android:text="@string/add" />
 
 

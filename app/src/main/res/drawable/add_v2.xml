@@ -19,6 +19,6 @@
         android:bottom="18dp"
         android:drawable="@drawable/ic_add_black_24dp"
         android:left="15dp"
-        android:right="130dp"
+        android:right="110dp"
         android:top="18dp" />
 </layer-list>

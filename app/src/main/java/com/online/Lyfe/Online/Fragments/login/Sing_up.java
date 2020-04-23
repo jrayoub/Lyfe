@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.online.Lyfe.R;
@@ -32,7 +34,7 @@ public class Sing_up extends Fragment implements View.OnClickListener {
     private LinearLayout singup;
     private String Sname, Semail, Spassword;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore firestore;
+    private DatabaseReference databaseReference;
 
     @Nullable
     @Override
@@ -54,7 +56,7 @@ public class Sing_up extends Fragment implements View.OnClickListener {
     }
 
     private void inisialize() {
-        firestore = FirebaseFirestore.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         mAuth = FirebaseAuth.getInstance();
         name = view.findViewById(R.id.name);
         email = view.findViewById(R.id.email);
@@ -91,20 +93,13 @@ public class Sing_up extends Fragment implements View.OnClickListener {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         String userid = user.getUid();
-                        DocumentReference doc = firestore.collection("Users").document(userid);
                         Map<String, Object> map_user = new HashMap<>();
                         map_user.put("fullnaame", Sname);
                         map_user.put("email", Semail);
                         map_user.put("id", mAuth.getCurrentUser().getUid().toString());
+                        databaseReference.child(userid).setValue(map_user);
                         verifyaccount();
-                        doc.set(map_user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                } else {
-                                }
-                            }
-                        });
+
                     } else {
                         Toast.makeText(getContext(), "please try again ", Toast.LENGTH_SHORT).show();
                         SetVisibility(false);

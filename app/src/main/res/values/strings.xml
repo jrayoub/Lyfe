@@ -32,4 +32,7 @@
     <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="number">15K</string>
+    <string name="started_following_you">started following you</string>
+    <string name="add_back">Follow Back</string>
+    <string name="jrayoub_liked_your_post">jrayoub liked your post</string>
 </resources>
