@@ -20,18 +20,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.online.Lyfe.Online.Model.freindlist;
+import com.online.Lyfe.Online.Model.Notification_model;
+import com.online.Lyfe.Online.Model.user_list;
 import com.online.Lyfe.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class frieds_request extends RecyclerView.Adapter<frieds_request.friend_holder> {
 
-    private ArrayList<freindlist> freind_list;
+    private ArrayList<user_list> freind_list;
+
 
     private DatabaseReference follow
             = FirebaseDatabase.getInstance().getReference().child("Follow");
@@ -39,13 +40,14 @@ public class frieds_request extends RecyclerView.Adapter<frieds_request.friend_h
     private FirebaseUser user
             = FirebaseAuth.getInstance().getCurrentUser();
 
-    private freindlist me;
+    private user_list me;
 
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     private friend_holder.onclick monclick;
+    private user_list my_user = new user_list();
 
-    public frieds_request(ArrayList<freindlist> friend_list, friend_holder.onclick onclick) {
+    public frieds_request(ArrayList<user_list> friend_list, friend_holder.onclick onclick) {
         this.freind_list = friend_list;
         this.monclick = onclick;
     }
@@ -60,7 +62,7 @@ public class frieds_request extends RecyclerView.Adapter<frieds_request.friend_h
     @Override
     public void onBindViewHolder(@NonNull final friend_holder holder, final int position) {
 
-        final freindlist thisUser = freind_list.get(position);
+        final user_list thisUser = freind_list.get(position);
 
         //checking the following
         isFollowing(thisUser.getId(), holder, position);
@@ -84,9 +86,9 @@ public class frieds_request extends RecyclerView.Adapter<frieds_request.friend_h
 
                     //set followers
                     follow.child(freind_list.get(position).getId()).child("followers").child(user.getUid()).setValue(me);
-
                     //send notification
-                    addNotification(thisUser.getId());
+                    get_profile_data(thisUser.getId());
+                    //addNotification(thisUser.getId());
 
                 } else {
                     follow.child(user.getUid()).child("following").child(thisUser.getId()).removeValue();
@@ -135,8 +137,7 @@ public class frieds_request extends RecyclerView.Adapter<frieds_request.friend_h
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         assert firebaseUser != null;
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Follow").child(firebaseUser.getUid()).child("following");
+        DatabaseReference reference = follow.child(firebaseUser.getUid()).child("following");
 
         reference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -163,13 +164,33 @@ public class frieds_request extends RecyclerView.Adapter<frieds_request.friend_h
 
     private void addNotification(String user_id) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id);
-        HashMap<String, Object> hashMap = new HashMap<>();
         String id = user.getUid();
-        hashMap.put("userid", id);
-        hashMap.put("text", "started following you");
-        hashMap.put("postid", "");
-        hashMap.put("ispost", false);
+        Notification_model hashMap = new Notification_model();
+        assert my_user != null;
+        hashMap.setName(my_user.getFullnaame());
+        hashMap.setIspost(false);
+        hashMap.setPostid(null);
+        hashMap.setText("Started following you");
+        hashMap.setUserid(id);
         reference.push().setValue(hashMap);
     }
 
+    private void get_profile_data(final String user_id) {
+        assert user != null;
+        final DatabaseReference my_account = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+        my_account.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                my_user = dataSnapshot.getValue(user_list.class);
+                addNotification(user_id);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
 }
+
+

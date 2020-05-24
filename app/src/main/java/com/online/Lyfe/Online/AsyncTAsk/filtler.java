@@ -13,18 +13,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.online.Lyfe.Online.Fragments.Navigation.Friend;
-import com.online.Lyfe.Online.Model.freindlist;
+import com.online.Lyfe.Online.Model.user_list;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class filtler extends AsyncTask<ArrayList<freindlist>, ArrayList<freindlist>, ArrayList<freindlist>> {
+public class filtler extends AsyncTask<ArrayList<user_list>, ArrayList<user_list>, ArrayList<user_list>> {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private ArrayList<freindlist> list = new ArrayList<>();
-    private ArrayList<freindlist> newlist = new ArrayList<>();
+    private ArrayList<user_list> list = new ArrayList<>();
+    private ArrayList<user_list> newlist = new ArrayList<>();
     private WeakReference<Friend> mreference;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -46,7 +46,7 @@ public class filtler extends AsyncTask<ArrayList<freindlist>, ArrayList<freindli
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                list.add(document.toObject(freindlist.class));
+                                list.add(document.toObject(user_list.class));
                             }
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
@@ -56,13 +56,13 @@ public class filtler extends AsyncTask<ArrayList<freindlist>, ArrayList<freindli
     }
 
     @Override
-    protected ArrayList<freindlist> doInBackground(ArrayList<freindlist>... arrayLists) {
+    protected ArrayList<user_list> doInBackground(ArrayList<user_list>... arrayLists) {
         if (list.isEmpty()) {
             publishProgress(arrayLists[0]);
             return newlist;
         }
         int i = 0;
-        for (freindlist item : arrayLists[0]) {
+        for (user_list item : arrayLists[0]) {
             if (item != list.get(i)) {
                 newlist.add(item);
             }
@@ -74,7 +74,7 @@ public class filtler extends AsyncTask<ArrayList<freindlist>, ArrayList<freindli
 
 
     @Override
-    protected void onPostExecute(ArrayList<freindlist> aVoid) {
+    protected void onPostExecute(ArrayList<user_list> aVoid) {
         super.onPostExecute(aVoid);
         Friend container = mreference.get();
         if (container != null || !container.getActivity().isFinishing()) {
@@ -82,7 +82,7 @@ public class filtler extends AsyncTask<ArrayList<freindlist>, ArrayList<freindli
     }
 
     @Override
-    protected void onProgressUpdate(ArrayList<freindlist>... values) {
+    protected void onProgressUpdate(ArrayList<user_list>... values) {
         super.onProgressUpdate(values);
         Friend container = mreference.get();
         if (container != null || !container.getActivity().isFinishing()) {

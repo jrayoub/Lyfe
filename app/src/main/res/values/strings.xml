@@ -35,4 +35,14 @@
     <string name="started_following_you">started following you</string>
     <string name="add_back">Follow Back</string>
     <string name="jrayoub_liked_your_post">jrayoub liked your post</string>
+    <string name="ayoub_aitouna">Ayoub Aitouna</string>
+    <string name="date">03/03/2020</string>
+    <string name="dec">my photoshope edit hope you like it follows</string>
+    <string name="what">What\'s On your Mind</string>
+    <string name="post">Post</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="your_uploaded_image">your uploaded image</string>
+    <string name="todo">TODO</string>
+    <string name="like">like</string>
+    <string name="replay">Replay</string>
 </resources>

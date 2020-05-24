@@ -1,6 +1,7 @@
 package com.online.Lyfe.Online.Fragments.Navigation;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import com.online.Lyfe.Online.Adapter.frieds_request;
-import com.online.Lyfe.Online.Model.freindlist;
+import com.online.Lyfe.Online.Model.user_list;
 import com.online.Lyfe.R;
 
 import java.util.ArrayList;
@@ -30,9 +30,10 @@ import java.util.ArrayList;
 
 public class Friend extends Fragment implements frieds_request.friend_holder.onclick {
     private View view;
-    private ArrayList<freindlist> users;
+    private ArrayList<user_list> users;
     private DatabaseReference user;
     private frieds_request adapter;
+    private RecyclerView recyclerView;
     private ProgressBar progressBar;
 
     @Nullable
@@ -47,10 +48,13 @@ public class Friend extends Fragment implements frieds_request.friend_holder.onc
 
     private void set_up_adapter() {
         adapter = new frieds_request(users, this);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        recyclerView.setVisibility(View.GONE);
+
+
     }
 
     private void getUserData() {
@@ -58,10 +62,16 @@ public class Friend extends Fragment implements frieds_request.friend_holder.onc
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    users.add(item.getValue(freindlist.class));
+                    users.add(item.getValue(user_list.class));
                 }
                 adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }, 2000);
             }
 
             @Override

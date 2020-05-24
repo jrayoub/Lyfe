@@ -82,6 +82,7 @@ public class Sing_up extends Fragment implements View.OnClickListener {
     }
 
     private void Singup() {
+        final String Profile = "https://firebasestorage.googleapis.com/v0/b/lyfe-4f4c0.appspot.com/o/Profile.png?alt=media&token=ce29bafc-a470-4430-940f-bf737f4e5d45";
         getdata();
         if (Sname.isEmpty() || Semail.isEmpty() || Spassword.isEmpty()) {
             Toast.makeText(getActivity(), "please check your info", Toast.LENGTH_SHORT).show();
@@ -97,6 +98,7 @@ public class Sing_up extends Fragment implements View.OnClickListener {
                         map_user.put("fullnaame", Sname);
                         map_user.put("email", Semail);
                         map_user.put("id", mAuth.getCurrentUser().getUid().toString());
+                        map_user.put("Profile", Profile);
                         databaseReference.child(userid).setValue(map_user);
                         verifyaccount();
 

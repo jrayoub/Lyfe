@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,13 +26,12 @@ import com.online.Lyfe.R;
 
 import java.util.ArrayList;
 
-public class Notifecation extends Fragment {
+public class Notification extends Fragment {
     private View view;
     private ArrayList<Notification_model> notifications;
     private Notification_adapter adapter;
     private DatabaseReference notification_reference;
-    private FirebaseUser user;
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -56,7 +56,6 @@ public class Notifecation extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
@@ -71,7 +70,8 @@ public class Notifecation extends Fragment {
 
     private void inisialize() {
         progressBar = view.findViewById(R.id.progres);
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         notification_reference = FirebaseDatabase.getInstance().getReference().child("Notifications").child(user.getUid());
         notifications = new ArrayList<>();
 

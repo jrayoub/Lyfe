@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/wite"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".Online.Activities.Comment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_background_rounded"
+            android:src="@drawable/comment_upload" />
+
+        <EditText
+            android:id="@+id/comment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:importantForAutofill="yes"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/send"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_background_rounded"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/send" />
+    </LinearLayout>
+</LinearLayout>

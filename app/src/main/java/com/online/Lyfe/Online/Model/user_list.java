@@ -1,9 +1,18 @@
 package com.online.Lyfe.Online.Model;
 
-public class freindlist {
+public class user_list {
     String fullnaame;
     String email;
     String id;
+    String Profile;
+
+    public String getProfile() {
+        return Profile;
+    }
+
+    public void setProfile(String profile) {
+        Profile = profile;
+    }
 
     public String getFullnaame() {
         return fullnaame;
@@ -29,13 +38,7 @@ public class freindlist {
         this.id = id;
     }
 
-    public freindlist(String fullnaame, String email, String id) {
-        this.fullnaame = fullnaame;
-        this.email = email;
-        this.id = id;
-    }
-
-    public freindlist() {
+    public user_list() {
     }
 
 }

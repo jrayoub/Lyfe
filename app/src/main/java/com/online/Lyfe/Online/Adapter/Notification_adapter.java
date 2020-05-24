@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Notification_adapter extends RecyclerView.Adapter<Notification_adapter.Notification_holder> {
-    ArrayList<Notification_model> Notifications;
+    private ArrayList<Notification_model> Notifications;
 
     public Notification_adapter(ArrayList<Notification_model> notifications) {
         Notifications = notifications;
@@ -26,17 +26,14 @@ public class Notification_adapter extends RecyclerView.Adapter<Notification_adap
     @NonNull
     @Override
     public Notification_holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_follow, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_item, parent, false);
         return new Notification_holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Notification_holder holder, int position) {
         holder.textView.setText(Notifications.get(position).getText());
-        if (!Notifications.get(position).getIspost()) {
-            holder.follow_back.setVisibility(View.GONE);
-        }
+        holder.name.setText(Notifications.get(position).getName());
     }
 
     @Override
@@ -46,14 +43,13 @@ public class Notification_adapter extends RecyclerView.Adapter<Notification_adap
 
     static class Notification_holder extends RecyclerView.ViewHolder {
         CircleImageView pic;
-        TextView textView;
-        Button follow_back;
+        TextView textView, name;
 
         Notification_holder(@NonNull View itemView) {
             super(itemView);
             pic = itemView.findViewById(R.id.pic);
             textView = itemView.findViewById(R.id.text);
-            follow_back = itemView.findViewById(R.id.follow_back);
+            name = itemView.findViewById(R.id.name);
         }
     }
 

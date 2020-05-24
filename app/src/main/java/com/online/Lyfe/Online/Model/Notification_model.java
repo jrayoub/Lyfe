@@ -3,6 +3,16 @@ package com.online.Lyfe.Online.Model;
 public class Notification_model {
     String userid;
     String text;
+    String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     String postid;
     Boolean ispost;
 
