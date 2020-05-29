@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class comment_model {
     private String key;
-    private String name, pic, comment, image;
+    private String name, pic, comment, image, id;
     private ArrayList<replay_model> replay_models;
     private HashMap<String, String> likes;
 
@@ -23,6 +23,14 @@ public class comment_model {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

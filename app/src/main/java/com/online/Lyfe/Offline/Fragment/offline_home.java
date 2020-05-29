@@ -22,7 +22,7 @@ import com.online.Lyfe.R;
 import java.util.ArrayList;
 
 public class offline_home extends Fragment implements Home_adapter.myholder.Onclick {
-    View view;
+    private View view;
     private ArrayList Data;
 
     @Nullable

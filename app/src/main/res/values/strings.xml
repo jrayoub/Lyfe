@@ -40,9 +40,15 @@
     <string name="dec">my photoshope edit hope you like it follows</string>
     <string name="what">What\'s On your Mind</string>
     <string name="post">Post</string>
-    <string name="upload_image">Upload Image</string>
+    <string name="upload_image">Gallery Image</string>
+    <string name="take_image">Take an Image</string>
     <string name="your_uploaded_image">your uploaded image</string>
     <string name="todo">TODO</string>
     <string name="like">like</string>
     <string name="replay">Replay</string>
+    <string name="likes">60 likes</string>
+    <string name="Unfllow">Unfollow</string>
+    <string name="edit_profile">Edite Profile</string>
+    <string name="log_out">Log Out</string>
+    <string name="pravicy_policy">Privacy Policy</string>
 </resources>

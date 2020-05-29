@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="UselessParent">
@@ -32,12 +32,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <Button
+                    android:id="@+id/setting"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/settings"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginBottom="5dp"
-                    android:src="@drawable/perm_identit"
                     app:civ_border_color="@color/wite"
                     app:civ_border_width="4dp"
                     app:layout_constraintBottom_toBottomOf="@+id/view2"
@@ -45,7 +52,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:fontFamily="@font/product_sans_regular"
@@ -62,7 +69,7 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
                     card_view:cardCornerRadius="10dp"
                     card_view:cardPreventCornerOverlap="true"
                     card_view:cardUseCompatPadding="true">
@@ -132,5 +139,5 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

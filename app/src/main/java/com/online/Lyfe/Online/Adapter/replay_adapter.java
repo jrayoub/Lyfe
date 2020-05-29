@@ -113,7 +113,7 @@ public class replay_adapter extends RecyclerView.Adapter {
         like.setValue(user.getUid());
     }
 
-    private void getlikes(String key, final replay_adapter.MyCallback myCallback) {
+    private void getlikes(String key, final MyCallback myCallback) {
         if (key != null) {
             database.child(key).child("likes").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

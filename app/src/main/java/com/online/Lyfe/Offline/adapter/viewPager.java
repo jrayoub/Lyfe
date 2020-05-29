@@ -11,10 +11,12 @@ import com.online.Lyfe.Offline.Model.fragment;
 import java.util.ArrayList;
 
 public class viewPager extends FragmentPagerAdapter {
-    ArrayList<fragment> fragments = new ArrayList<>();
+    private ArrayList<fragment> fragments = new ArrayList<>();
+
     public viewPager(@NonNull FragmentManager fm) {
         super(fm);
     }
+
     @NonNull
     @Override
     public Fragment getItem(int position) {

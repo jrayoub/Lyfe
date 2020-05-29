@@ -1,6 +1,7 @@
 package com.online.Lyfe.Online.Fragments.Navigation;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -39,6 +40,7 @@ import com.online.Lyfe.Online.Model.user_list;
 import com.online.Lyfe.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.Random;
@@ -50,13 +52,15 @@ import static io.opencensus.tags.TagKey.MAX_LENGTH;
 
 public class add extends Fragment implements View.OnClickListener {
     private static final int IMAGE_PICK = 22;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private View view;
     private EditText text_holder;
     private TextView name, date;
     private ImageView image_container;
     private CircleImageView pic;
-    private LinearLayout image;
+    private LinearLayout image, camera;
+
     private Button post;
     private ConstraintLayout container;
     private ProgressBar image_progress;
@@ -79,6 +83,7 @@ public class add extends Fragment implements View.OnClickListener {
         post.setOnClickListener(this);
         image.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        camera.setOnClickListener(this);
     }
 
     private void post_data() {
@@ -138,6 +143,7 @@ public class add extends Fragment implements View.OnClickListener {
         name = view.findViewById(R.id.name);
         cancel = view.findViewById(R.id.cancel);
         image = view.findViewById(R.id.image);
+        camera = view.findViewById(R.id.camera);
         post = view.findViewById(R.id.post);
         pic = view.findViewById(R.id.pic);
         image_progress = view.findViewById(R.id.image_progress);
@@ -169,14 +175,29 @@ public class add extends Fragment implements View.OnClickListener {
         }
         if (v.getId() == image.getId()) {
             image.setVisibility(View.GONE);
+            camera.setVisibility(View.GONE);
+
             post.setEnabled(false);
             getImage();
         }
         if (v.getId() == cancel.getId()) {
             image.setVisibility(View.VISIBLE);
-            container.setVisibility(View.GONE);
+            camera.setVisibility(View.VISIBLE);
             downloadUri = Uri.EMPTY;
             post.setEnabled(true);
+        }
+        if (v.getId() == camera.getId()) {
+            Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+            camera.setVisibility(View.GONE);
+            image.setVisibility(View.GONE);
+            openCamera();
+        }
+    }
+
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
@@ -194,8 +215,23 @@ public class add extends Fragment implements View.OnClickListener {
             image_container.setImageURI(fileURi);
             handel_image(true);
             upload_to_firebase();
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+            assert data != null;
+            fileURi = data.getData();
+            handel_image(true);
+            Bundle extras = data.getExtras();
+
+            assert extras != null;
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            image_container.setImageBitmap(imageBitmap);
+
+            assert imageBitmap != null;
+            upload_to_firebase(imageBitmap);
+            //imageView.setImageBitmap(imageBitmap);
         } else {
             image.setVisibility(View.VISIBLE);
+            camera.setVisibility(View.VISIBLE);
             post.setEnabled(true);
         }
     }
@@ -214,6 +250,39 @@ public class add extends Fragment implements View.OnClickListener {
         String key = random();
         final StorageReference ref = storageRef.child("images/posts" + fileURi.getLastPathSegment() + key);
         UploadTask uploadTask = ref.putFile(fileURi);
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw Objects.requireNonNull(task.getException());
+                }
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    downloadUri = task.getResult();
+                    if (task.isComplete()) {
+                        post.setEnabled(true);
+                    }
+                    handel_image(false);
+                } else {
+                    Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void upload_to_firebase(Bitmap bitmap) {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        String key = random();
+        ByteArrayOutputStream boas = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, boas);
+        byte[] data = boas.toByteArray();
+        final StorageReference ref = storageRef.child("images/posts" + key);
+        UploadTask uploadTask = ref.putBytes(data);
         uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {

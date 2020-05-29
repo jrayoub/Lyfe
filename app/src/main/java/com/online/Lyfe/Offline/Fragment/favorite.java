@@ -21,6 +21,7 @@ import com.online.Lyfe.Offline.databases.datafave;
 import com.online.Lyfe.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class favorite extends Fragment implements Favorite_adapter.Holder.itemclick {
     private View view;
@@ -50,6 +51,7 @@ public class favorite extends Fragment implements Favorite_adapter.Holder.itemcl
         recyclerView.hasFixedSize();
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public void share(int position) {
         Intent sendIntent = new Intent();
@@ -69,8 +71,9 @@ public class favorite extends Fragment implements Favorite_adapter.Holder.itemcl
 
     @Override
     public void copy(int position) {
-        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard = (ClipboardManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("Copied Text", "" + Data.get(position));
+        assert clipboard != null;
         clipboard.setPrimaryClip(clip);
         Toast.makeText(getActivity(), "copied", Toast.LENGTH_SHORT).show();
     }

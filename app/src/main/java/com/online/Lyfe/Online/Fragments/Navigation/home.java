@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,8 +42,7 @@ public class home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_layout, container, false);
         inisialize();
-        getfriends();
-        get_blogs(ITEM_COUNT);
+        getfriends(ITEM_COUNT);
         setUp_recyclerView();
         return view;
     }
@@ -67,7 +65,7 @@ public class home extends Fragment {
                     if (position == ITEM_COUNT) {
                         ITEM_COUNT += 20;
                         //String id = adapter.getlastItemID();
-                        get_blogs(ITEM_COUNT);
+                        getfriends(ITEM_COUNT);
 
                     }
 
@@ -113,8 +111,7 @@ public class home extends Fragment {
                 });
     }
 
-    private void getfriends() {
-
+    private void getfriends(final int ITEM_COUNT) {
         assert user != null;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                 .getReference("Follow").child(user.getUid()).child("following");
@@ -124,6 +121,7 @@ public class home extends Fragment {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     friends.add(item.getKey());
                 }
+                get_blogs(ITEM_COUNT);
             }
 
             @Override

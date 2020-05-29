@@ -7,7 +7,14 @@ public class blog_model {
     private String name, date, dec, image, pic, id, key;
     private ArrayList<String> comment;
     private HashMap<String, String> likes;
-    private String owner_nmae, owner_pic, owner_id;
+    private String owner_nmae, OwnerDate, owner_pic, owner_id;
+
+    public void setOwnerDate(String ownerDate) {
+        OwnerDate = ownerDate;
+    }
+    public String getOwnerDate() {
+        return OwnerDate;
+    }
 
     public HashMap<String, String> getLikes() {
         return likes;
@@ -110,4 +117,6 @@ public class blog_model {
     public void setOwner_id(String owner_id) {
         this.owner_id = owner_id;
     }
+
+
 }

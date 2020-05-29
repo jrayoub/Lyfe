@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end"
+    android:background="@drawable/outcomingbubble"
+    android:gravity="center"
+    android:maxWidth="260dp"
+    android:orientation="vertical"
+    android:padding="11dp">
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="@string/dec"
+        android:textColor="@color/wite" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginEnd="20dp" />
+
+    <LinearLayout
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+
+            android:id="@+id/time"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:maxWidth="260dp"
+            android:text="12.53"
+            android:textColor="@color/wite"
+            android:textSize="13dp" />
+
+        <View
+            android:id="@+id/seen"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/seen" />
+    </LinearLayout>
+</LinearLayout>

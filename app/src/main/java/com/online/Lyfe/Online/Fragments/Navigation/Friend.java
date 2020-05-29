@@ -28,7 +28,7 @@ import com.online.Lyfe.R;
 import java.util.ArrayList;
 
 
-public class Friend extends Fragment implements frieds_request.friend_holder.onclick {
+public class Friend extends Fragment {
     private View view;
     private ArrayList<user_list> users;
     private DatabaseReference user;
@@ -47,14 +47,12 @@ public class Friend extends Fragment implements frieds_request.friend_holder.onc
     }
 
     private void set_up_adapter() {
-        adapter = new frieds_request(users, this);
+        adapter = new frieds_request(users, getContext());
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
-
-
     }
 
     private void getUserData() {
@@ -65,13 +63,9 @@ public class Friend extends Fragment implements frieds_request.friend_holder.onc
                     users.add(item.getValue(user_list.class));
                 }
                 adapter.notifyDataSetChanged();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        recyclerView.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                    }
-                }, 2000);
+                recyclerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -88,15 +82,4 @@ public class Friend extends Fragment implements frieds_request.friend_holder.onc
         user = db.getReference().child("Users");
         users = new ArrayList<>();
     }
-
-    @Override
-    public void delete(int position) {
-        removeItem(position);
-    }
-
-    private void removeItem(int adapterPosition) {
-        users.remove(adapterPosition);
-        adapter.notifyDataSetChanged();
-    }
-
 }

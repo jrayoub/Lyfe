@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="button_hight">35dp</dimen>
-    <dimen name="text_size">18</dimen>
+    <dimen name="button_hight">30dp</dimen>
 </resources>
